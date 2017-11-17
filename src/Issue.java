@@ -2,6 +2,7 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -94,6 +95,11 @@ public class Issue extends javax.swing.JFrame {
         jLabel5.setText("Price");
 
         jButton1.setText("Search");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -243,13 +249,13 @@ public class Issue extends javax.swing.JFrame {
                     .addComponent(jLabel10)
                     .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
@@ -260,6 +266,11 @@ public class Issue extends javax.swing.JFrame {
         jLabel14.setText("Date Of Issue");
 
         jButton3.setText("Issue");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Back");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -313,6 +324,48 @@ public class Issue extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        String sql = "select * from Student where Student_ID=?";
+        try{
+         pst=conn.prepareStatement(sql);
+          pst.setString(1, jTextField7.getText()); 
+          rs=pst.executeQuery();
+          if(rs.next()){
+               String add1=rs.getString("Name");
+                jTextField8.setText(add1);
+                String add2=rs.getString("Father");
+                jTextField9.setText(add2);
+                String add3=rs.getString("Course");
+                jTextField10.setText(add3);
+                String add4=rs.getString("Branch");
+                jTextField11.setText(add4);
+                String add5=rs.getString("Year");
+                jTextField12.setText(add5);
+                String add6=rs.getString("Semester");
+                jTextField13.setText(add6);
+                rs.close();
+                pst.close();
+          }
+           else
+                {
+                
+                    JOptionPane.showMessageDialog(null,"Student ID Not Found");
+                }
+          
+        }
+         catch(Exception e){
+        JOptionPane.showMessageDialog(null,e);
+        }
+          finally{
+            try{
+                rs.close();
+                pst.close();
+            }
+            catch(Exception e){
+            
+            }
+            
+            }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -322,6 +375,77 @@ public class Issue extends javax.swing.JFrame {
         ob.setVisible(true);
         
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+            // TODO add your handling code here:
+            String sql = "select * from Book where Book_ID=?";
+            try{
+                pst=conn.prepareStatement(sql);
+                pst.setString(1, jTextField1.getText());
+                rs=pst.executeQuery();
+                if(rs.next()){
+                String add1=rs.getString("Name");
+                jTextField2.setText(add1);
+                String add2=rs.getString("Edition");
+                jTextField3.setText(add2);
+                String add3=rs.getString("Publisher");
+                jTextField4.setText(add3);
+                String add4=rs.getString("Price");
+                jTextField5.setText(add4);
+                String add5=rs.getString("Pages");
+                jTextField6.setText(add5);
+                rs.close();
+                pst.close();
+                }
+                else
+                {
+                
+                    JOptionPane.showMessageDialog(null,"Book ID Not Found");
+                }
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null,e);
+            }
+            finally{
+            try{
+                rs.close();
+                pst.close();
+            }
+            catch(Exception e){
+            
+            }
+            
+            }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String sql = "insert into Issue(Book_ID,Name,Edition,Publisher,Price,Pages,Student_Id,SName,FName,Course,Branch,Year,Semester,DateOfIssue) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,)";
+        
+        try{
+        pst=conn.prepareStatement(sql);
+        pst.setString(1, jTextField1.getText());
+        pst.setString(2, jTextField2.getText());
+        pst.setString(3, jTextField3.getText());
+        pst.setString(4, jTextField4.getText());
+        pst.setString(5, jTextField5.getText());
+        pst.setString(6, jTextField6.getText());
+        pst.setString(7, jTextField7.getText());
+        pst.setString(8, jTextField8.getText());
+        pst.setString(9, jTextField9.getText());
+        pst.setString(10, jTextField10.getText());
+        pst.setString(11, jTextField11.getText());
+        pst.setString(12, jTextField12.getText());
+        pst.setString(13, jTextField13.getText());
+        pst.setString(14, jTextField14.getText());
+        pst.execute();
+        JOptionPane.showMessageDialog(null,"Book Issued");
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
+        
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
